@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import About from './components/About';
+import WhyChooseUs from './components/WhyChooseUs';
+import Services from './components/Services';
+import Gallery from './components/Gallery';
+import Blog from './components/Blog';
+import BookAppointment from './components/BookAppointment';
+import Reviews from './components/Reviews';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import AdminPanel from './components/admin/AdminPanel';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Admin Panel Route */}
+        <Route path="/admin" element={<AdminPanel />} />
+        
+        {/* Main Website Route */}
+        <Route path="/" element={
+          <div className="App">
+            <Navbar />
+            <HeroSection />
+            <About />
+            <WhyChooseUs />
+            <Services />
+            <Gallery />
+            <Blog />
+            <BookAppointment />
+            <Reviews />
+            <Contact />
+            <Footer />
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
 }
 

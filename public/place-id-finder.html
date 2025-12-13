@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Place ID Finder - Roma's Dental Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f9fafb, #e0f2fe);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        .error-box {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+        }
+
+        .error-box p {
+            color: #b91c1c;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .search-header {
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
+            padding: 24px;
+        }
+
+        #pac-input {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 1.125rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        #pac-input:focus {
+            border-color: #67e8f9;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            background-color: #e5e7eb;
+        }
+
+        .place-info {
+            padding: 24px;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .place-info.active {
+            display: block;
+        }
+
+        .place-info h3 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .info-item.highlight {
+            background-color: #ecfeff;
+            border: 2px solid #06b6d4;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .info-label.highlight {
+            color: #0e7490;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            color: #1f2937;
+            word-break: break-all;
+        }
+
+        .info-value.mono {
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            background-color: #06b6d4;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #0891b2;
+        }
+
+        .copy-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
+            color: white;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: #dbeafe;
+            border: 1px solid: #93c5fd;
+            border-radius: 8px;
+        }
+
+        .instructions h4 {
+            color: #1e40af;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .instructions ol {
+            color: #1e40af;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .instructions code {
+            background-color: #bfdbfe;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .help-section {
+            margin-top: 32px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .help-section a {
+            color: #06b6d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .help-section a:hover {
+            color: #0891b2;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.875rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            #map {
+                height: 300px;
+            }
+
+            .info-item {
+                flex-direction: column;
+            }
+
+            .copy-btn {
+                margin-left: 0;
+                margin-top: 12px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗺️ Google Place ID Finder</h1>
+            <p>Search for your clinic to find the Place ID needed for Google Reviews integration</p>
+        </div>
+
+        <div id="error-container"></div>
+
+        <div class="card">
+            <div class="search-header">
+                <input
+                    id="pac-input"
+                    type="text"
+                    placeholder="Search for Roma's Dental Care or your clinic name..."
+                />
+            </div>
+
+            <div id="map"></div>
+
+            <div id="place-info" class="place-info">
+                <h3>Place Details</h3>
+
+                <div class="info-item">
+                    <div class="info-content">
+                        <div class="info-label">Place Name</div>
+                        <div class="info-value" id="place-name"></div>
+                    </div>
+                </div>
+
+                <div class="info-item highlight">
+                    <div class="info-content">
+                        <div class="info-label highlight">Place ID (Copy this!)</div>
+                        <div class="info-value mono" id="place-id"></div>
+                    </div>
+                    <button class="copy-btn" onclick="copyPlaceId()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-content">
+                        <div class="info-label">Address</div>
+                        <div class="info-value" id="place-address"></div>
+                    </div>
+                </div>
+
+                <div class="info-item" id="rating-container" style="display: none;">
+                    <div class="info-content">
+                        <div class="info-label">Google Rating</div>
+                        <div class="info-value" id="place-rating"></div>
+                    </div>
+                </div>
+
+                <button class="action-btn" onclick="showEnvConfig()">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Show .env Configuration
+                </button>
+
+                <div class="instructions">
+                    <h4>📋 Next Steps:</h4>
+                    <ol>
+                        <li>Copy the Place ID above using the copy button</li>
+                        <li>Open the <code>.env</code> file in your project root directory</li>
+                        <li>Replace <code>your_place_id_here</code> with the copied Place ID</li>
+                        <li>Save the file and restart your development server</li>
+                        <li>The Reviews section will now fetch real Google reviews! 🎉</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <p>Need help? Check the <a href="GOOGLE_API_SETUP.md">GOOGLE_API_SETUP.md</a> file for detailed instructions.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentPlaceId = '';
+        const API_KEY = 'YOUR_GOOGLE_API_KEY'; // Replace with your actual API key
+
+        function initMap() {
+            if (API_KEY === 'YOUR_GOOGLE_API_KEY') {
+                showError('Please replace YOUR_GOOGLE_API_KEY in this HTML file with your actual Google API key.');
+                return;
+            }
+
+            // Initialize map centered on India
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: 78.9629 },
+                zoom: 5,
+            });
+
+            const input = document.getElementById('pac-input');
+
+            // Create autocomplete
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                fields: ['place_id', 'geometry', 'formatted_address', 'name', 'rating', 'user_ratings_total', 'types'],
+            });
+
+            autocomplete.bindTo('bounds', map);
+
+            // Create marker
+            const marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            // Create info window
+            const infowindow = new google.maps.InfoWindow();
+
+            marker.addListener('click', () => {
+                infowindow.open(map, marker);
+            });
+
+            // Handle place selection
+            autocomplete.addListener('place_changed', () => {
+                infowindow.close();
+                marker.setVisible(false);
+
+                const place = autocomplete.getPlace();
+
+                if (!place.geometry || !place.geometry.location) {
+                    showError('No details available for input: ' + place.name);
+                    return;
+                }
+
+                // Clear error
+                document.getElementById('error-container').innerHTML = '';
+
+                // Store place ID
+                currentPlaceId = place.place_id;
+
+                // Update place info
+                document.getElementById('place-name').textContent = place.name;
+                document.getElementById('place-id').textContent = place.place_id;
+                document.getElementById('place-address').textContent = place.formatted_address;
+
+                if (place.rating) {
+                    document.getElementById('rating-container').style.display = 'flex';
+                    document.getElementById('place-rating').textContent = 
+                        `⭐ ${place.rating} (${place.user_ratings_total?.toLocaleString()} reviews)`;
+                } else {
+                    document.getElementById('rating-container').style.display = 'none';
+                }
+
+                // Show place info section
+                document.getElementById('place-info').classList.add('active');
+
+                // Update map
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+
+                // Update marker
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+
+                // Create info window content
+                const content = `
+                    <div style="padding: 10px; max-width: 300px;">
+                        <h3 style="margin: 0 0 8px 0; color: #0891b2; font-size: 16px;">${place.name}</h3>
+                        <p style="margin: 4px 0; font-size: 12px;"><strong>Place ID:</strong> ${place.place_id}</p>
+                        <p style="margin: 4px 0; font-size: 12px;"><strong>Address:</strong> ${place.formatted_address}</p>
+                        ${place.rating ? `<p style="margin: 4px 0; font-size: 12px;"><strong>Rating:</strong> ${place.rating} ⭐ (${place.user_ratings_total} reviews)</p>` : ''}
+                    </div>
+                `;
+
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
+            });
+        }
+
+        function copyPlaceId() {
+            const placeId = document.getElementById('place-id').textContent;
+            navigator.clipboard.writeText(placeId).then(() => {
+                alert('✅ Place ID copied to clipboard!\n\n' + placeId);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = placeId;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('✅ Place ID copied to clipboard!\n\n' + placeId);
+            });
+        }
+
+        function showEnvConfig() {
+            if (!currentPlaceId) {
+                alert('⚠️ Please search for and select a place first.');
+                return;
+            }
+
+            const envContent = `REACT_APP_GOOGLE_API_KEY=${API_KEY}
+REACT_APP_GOOGLE_PLACE_ID=${currentPlaceId}`;
+
+            alert(`📋 Add this to your .env file:\n\n${envContent}\n\nThen restart your development server with: npm start`);
+        }
+
+        function showError(message) {
+            const errorHtml = `
+                <div class="error-box">
+                    <p>❌ ${message}</p>
+                </div>
+            `;
+            document.getElementById('error-container').innerHTML = errorHtml;
+        }
+
+        window.initMap = initMap;
+    </script>
+
+    <!-- Load Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>

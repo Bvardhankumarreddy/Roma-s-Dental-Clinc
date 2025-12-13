@@ -1,0 +1,210 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { aboutContentAPI } from '../utils/api';
+
+const About = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [content, setContent] = useState({
+    subtitle: 'About Us',
+    title: 'Welcome to',
+    highlightedTitle: 'Roma\'s Dental Care',
+    description: 'Your trusted partner for comprehensive dental care in Kharadi & Wadgaon Sheri',
+    mainImage: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80',
+    heading: 'Advanced, Gentle Treatments by 13+ Years Experienced Doctor',
+    content: 'At Roma\'s Dental Care, we aim to increase awareness about the importance of oral hygiene and dental health. We strongly believe that good oral health contributes to overall wellness.\n\nDr. Roma has worked across various cities and in mobile dental setups, gaining diverse experience and exposure. Her approach is gentle, kind, and compassionate, ensuring a comfortable experience for every patient.\n\nSince awareness about the link between oral health and general health is still limited, we are dedicated to educating our community and providing reliable, patient-focused care.\n\nChoose Roma\'s Dental Care for healthier teeth, healthier gums, and a healthier you.',
+    features: [
+      {
+        title: 'State-of-the-Art Equipment',
+        description: 'Latest dental technology for precise diagnosis and treatment'
+      },
+      {
+        title: 'Experienced Team',
+        description: 'Highly qualified dentists with 10+ specializations'
+      },
+      {
+        title: 'Patient-Centered Care',
+        description: 'Comfortable environment with personalized treatment plans'
+      }
+    ],
+    values: [
+      {
+        title: 'Trust & Safety',
+        description: 'Sterilized equipment and strict hygiene protocols for your safety'
+      },
+      {
+        title: 'Affordable Pricing',
+        description: 'Quality dental care at competitive prices with flexible payment options'
+      },
+      {
+        title: 'Flexible Hours',
+        description: 'Open 6 days a week from 10 AM - 8 PM to fit your schedule'
+      }
+    ]
+  });
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const currentRef = sectionRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const result = await aboutContentAPI.get();
+        if (result.success && result.content) {
+          setContent(result.content);
+        }
+      } catch (error) {
+        console.error('Error fetching about content:', error);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  return (
+    <section id="about" ref={sectionRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <p className={`text-cyan-500 text-sm font-semibold uppercase tracking-wider mb-3 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+          }`}>
+            {content.subtitle}
+          </p>
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 transition-all duration-700 delay-100 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}>
+            {content.title} <span className="text-cyan-500">{content.highlightedTitle}</span>
+          </h2>
+          <p className={`text-gray-600 text-lg max-w-3xl mx-auto transition-all duration-700 delay-200 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}>
+            {content.description}
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left - Image */}
+          <div className={`transition-all duration-700 delay-300 ${
+            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+          }`}>
+            <div className="relative">
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src={content.mainImage} 
+                  alt="Roma's Dental Care Clinic" 
+                  className="w-full h-[500px] object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-cyan-100 rounded-2xl -z-10"></div>
+              <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-100 rounded-full -z-10"></div>
+            </div>
+          </div>
+
+          {/* Right - Content */}
+          <div className={`transition-all duration-700 delay-400 ${
+            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+          }`}>
+            <h3 className="text-3xl font-bold text-gray-800 mb-6">
+              {content.heading}
+            </h3>
+            
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              At Roma's Dental Care, we aim to increase awareness about the importance of oral hygiene and dental health. We strongly believe that good oral health contributes to overall wellness.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              Dr. Roma has worked across various cities and in mobile dental setups, gaining diverse experience and exposure. Her approach is gentle, kind, and compassionate, ensuring a comfortable experience for every patient.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              Since awareness about the link between oral health and general health is still limited, we are dedicated to educating our community and providing reliable, patient-focused care.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              Choose Roma’s Dental Care for healthier teeth, healthier gums, and a healthier you.
+            </p>
+
+            <div className="space-y-4">
+              {content.features.map((feature, index) => (
+                <div key={index} className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500 transition-colors">
+                    <svg className="w-6 h-6 text-cyan-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-1">{feature.title}</h4>
+                    <p className="text-gray-600">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Our Values */}
+        <div className={`grid md:grid-cols-3 gap-8 transition-all duration-700 delay-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 text-center hover:shadow-xl transition-all transform hover:-translate-y-2 group">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+              <svg className="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 mb-3">{content.values[0].title}</h3>
+            <p className="text-gray-600">
+              {content.values[0].description}
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 text-center hover:shadow-xl transition-all transform hover:-translate-y-2 group">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+              <svg className="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 mb-3">{content.values[1].title}</h3>
+            <p className="text-gray-600">
+              {content.values[1].description}
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 text-center hover:shadow-xl transition-all transform hover:-translate-y-2 group">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+              <svg className="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-800 mb-3">{content.values[2].title}</h3>
+            <p className="text-gray-600">
+              {content.values[2].description}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
