@@ -6,7 +6,7 @@ This guide will help you set up all AWS resources needed for your Roma's Dental 
 
 You need to create:
 - ✅ 1 IAM User with permissions
-- ✅ 8 DynamoDB Tables
+- ✅ 9 DynamoDB Tables
 - ✅ 1 S3 Bucket for images
 
 ---
@@ -64,7 +64,7 @@ REACT_APP_AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY_HERE
 
 ## Part 2: Create DynamoDB Tables
 
-You need to create 8 tables. Follow these steps for each table:
+You need to create 9 tables. Follow these steps for each table:
 
 ### Step 2.1: Navigate to DynamoDB
 
@@ -179,6 +179,21 @@ You need to create 8 tables. Follow these steps for each table:
 **Wait for Status**: "Active"
 
 **📌 Important**: This table stores social media links displayed in the Contact section. You can add Facebook, Instagram, Twitter, YouTube, LinkedIn, WhatsApp, and other social platforms from the admin panel's Social Links tab.
+
+---
+
+### Table 9: FAQ Table
+
+**Table Details:**
+- **Table name**: `RomasDental_FAQ`
+- **Partition key**: `faqId` (String)
+- Leave **Sort key** empty
+- **Table settings**: Default settings
+- Click **Create table**
+
+**Wait for Status**: "Active"
+
+**📌 Important**: This table stores Frequently Asked Questions displayed in the FAQ section. The FAQ section includes SEO-optimized structured data (JSON-LD) to help with Google rich snippets and better search visibility. You can manage FAQs from the admin panel's FAQ tab.
 
 ---
 

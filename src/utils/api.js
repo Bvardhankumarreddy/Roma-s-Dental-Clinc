@@ -906,6 +906,100 @@ export const statsAPI = {
   }
 };
 
+// FAQ API
+export const faqAPI = {
+  getAll: async () => {
+    try {
+      const params = {
+        TableName: process.env.REACT_APP_DYNAMODB_FAQ_TABLE || 'RomasDental_FAQ'
+      };
+      
+      const result = await dynamoDB.scan(params).promise();
+      
+      // Sort by displayOrder
+      const sortedFAQs = (result.Items || []).sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
+      
+      return {
+        success: true,
+        count: result.Items.length,
+        faqs: sortedFAQs
+      };
+    } catch (error) {
+      console.error('Get FAQs error:', error);
+      return { success: false, message: 'Failed to fetch FAQs', faqs: [] };
+    }
+  },
+  
+  create: async (faqData) => {
+    try {
+      const faqId = generateId();
+      const params = {
+        TableName: process.env.REACT_APP_DYNAMODB_FAQ_TABLE || 'RomasDental_FAQ',
+        Item: {
+          faqId,
+          ...faqData,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
+      };
+      
+      await dynamoDB.put(params).promise();
+      
+      return {
+        success: true,
+        message: 'FAQ added successfully',
+        faq: params.Item
+      };
+    } catch (error) {
+      console.error('Create FAQ error:', error);
+      return { success: false, message: 'Failed to add FAQ' };
+    }
+  },
+  
+  update: async (faqId, faqData) => {
+    try {
+      const params = {
+        TableName: process.env.REACT_APP_DYNAMODB_FAQ_TABLE || 'RomasDental_FAQ',
+        Item: {
+          faqId,
+          ...faqData,
+          updatedAt: new Date().toISOString()
+        }
+      };
+      
+      await dynamoDB.put(params).promise();
+      
+      return {
+        success: true,
+        message: 'FAQ updated successfully',
+        faq: params.Item
+      };
+    } catch (error) {
+      console.error('Update FAQ error:', error);
+      return { success: false, message: 'Failed to update FAQ' };
+    }
+  },
+  
+  delete: async (faqId) => {
+    try {
+      const params = {
+        TableName: process.env.REACT_APP_DYNAMODB_FAQ_TABLE || 'RomasDental_FAQ',
+        Key: { faqId }
+      };
+      
+      await dynamoDB.delete(params).promise();
+      
+      return {
+        success: true,
+        message: 'FAQ deleted successfully'
+      };
+    } catch (error) {
+      console.error('Delete FAQ error:', error);
+      return { success: false, message: 'Failed to delete FAQ' };
+    }
+  }
+};
+
 // Social Links API
 export const socialLinksAPI = {
   getAll: async () => {

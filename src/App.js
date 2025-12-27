@@ -9,8 +9,10 @@ import Gallery from './components/Gallery';
 import Blog from './components/Blog';
 import BookAppointment from './components/BookAppointment';
 import Reviews from './components/Reviews';
+import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ScrollButtons from './components/ScrollButtons';
 import AdminPanel from './components/admin/AdminPanel';
 
 function App() {
@@ -32,8 +34,10 @@ function App() {
             <Blog />
             <BookAppointment />
             <Reviews />
+            <FAQ />
             <Contact />
             <Footer />
+            <ScrollButtons />
           </div>
         } />
       </Routes>
