@@ -82,7 +82,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
         </div>
 
         <p className="text-center text-gray-600 mt-6 text-sm">
-          © 2025 Roma's Dental Care. All Rights Reserved.
+          © 2025 All Rights Reserved. Designed & Developed by <a href="https://www.corevibetechnology.com/" target="_blank" rel="noopener noreferrer" className="underline">Corevibe Technology Pvt. Ltd.</a>
         </p>
       </div>
     </div>

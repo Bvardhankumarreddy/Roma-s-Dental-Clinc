@@ -10,6 +10,7 @@ import HomeContentManager from './HomeContentManager';
 import AboutContentManager from './AboutContentManager';
 import StatsManager from './StatsManager';
 import SocialLinksManager from './SocialLinksManager';
+import FAQManager from './FAQManager';
 
 const AdminPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,7 +49,8 @@ const AdminPanel = () => {
     { id: 'bookings', name: 'Bookings', icon: '📅' },
     { id: 'gallery', name: 'Gallery', icon: '🖼️' },
     { id: 'blogs', name: 'Blogs', icon: '📝' },
-    { id: 'services', name: 'Services', icon: '🦷' }
+    { id: 'services', name: 'Services', icon: '🦷' },
+    { id: 'faq', name: 'FAQ', icon: '❓' }
   ];
 
   return (
@@ -56,16 +58,16 @@ const AdminPanel = () => {
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Roma's Dental Care</h1>
-              <p className="text-sm text-gray-600">Admin Panel</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Roma's Dental Care</h1>
+              <p className="text-xs sm:text-sm text-gray-600">Admin Panel</p>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">👋 {admin?.name || 'Admin'}</span>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-xs sm:text-sm text-gray-600">👋 {admin?.name || 'Admin'}</span>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
+                className="bg-red-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-red-600 transition-colors text-xs sm:text-sm font-medium"
               >
                 Logout
               </button>
@@ -77,12 +79,12 @@ const AdminPanel = () => {
       {/* Navigation Tabs */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8 overflow-x-auto">
+          <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-cyan-500 text-cyan-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -107,6 +109,7 @@ const AdminPanel = () => {
         {activeTab === 'gallery' && <GalleryManager />}
         {activeTab === 'blogs' && <BlogsManager />}
         {activeTab === 'services' && <ServicesManager />}
+        {activeTab === 'faq' && <FAQManager />}
       </main>
     </div>
   );

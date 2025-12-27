@@ -123,10 +123,10 @@ const HomeContentManager = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Home Section Content</h2>
-        <p className="text-gray-600">Manage the hero section content and images</p>
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Home Section Content</h2>
+        <p className="text-sm sm:text-base text-gray-600">Manage the hero section content and images</p>
       </div>
 
       {message.text && (

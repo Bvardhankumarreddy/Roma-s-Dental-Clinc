@@ -11,6 +11,16 @@
     animation: fadeIn 0.3s ease-in;
   }
   
+  /* Hide scrollbar for admin panel tabs */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
   @keyframes bounce-slow {
     0%, 100% {
       transform: translateY(0);

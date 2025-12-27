@@ -97,18 +97,19 @@ const ServicesManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Services Management</h2>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Services Management</h2>
         <button
           onClick={openCreateModal}
-          className="bg-cyan-500 text-white px-6 py-2 rounded-lg hover:bg-cyan-600 font-medium"
+          className="bg-cyan-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-cyan-600 font-medium text-sm sm:text-base w-full sm:w-auto"
         >
           + Add Service
         </button>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[600px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order</th>
@@ -153,6 +154,7 @@ const ServicesManager = () => {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Create/Edit Modal */}
