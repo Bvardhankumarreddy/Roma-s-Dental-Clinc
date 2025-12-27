@@ -83,7 +83,7 @@ const Dashboard = () => {
       <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         {statCards.map((stat, index) => (
           <div key={index} className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
@@ -101,11 +101,11 @@ const Dashboard = () => {
 
       {/* Recent Bookings */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Bookings</h3>
+        <div className="p-4 sm:p-6 border-b">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800">Recent Bookings</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[600px]">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>

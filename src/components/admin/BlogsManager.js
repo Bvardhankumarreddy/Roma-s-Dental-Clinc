@@ -102,17 +102,17 @@ const BlogsManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Blogs Management</h2>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Blogs Management</h2>
         <button
           onClick={openCreateModal}
-          className="bg-cyan-500 text-white px-6 py-2 rounded-lg hover:bg-cyan-600 font-medium"
+          className="bg-cyan-500 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-cyan-600 font-medium text-sm sm:text-base w-full sm:w-auto"
         >
           + Create Blog
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {blogs.map((blog) => (
           <div key={blog.blogId} className="bg-white rounded-lg shadow overflow-hidden">
             {blog.imageUrl && (

@@ -35,14 +35,14 @@ const Navbar = () => {
               alt="Roma's Dental Care" 
               className="h-10 sm:h-14 w-auto object-contain rounded-lg transform transition-all duration-300 group-hover:scale-105"
             />
-            <h1 className="text-sm sm:text-xl lg:text-2xl font-bold text-gray-800 group-hover:text-cyan-500 transition-colors">
+            <h1 className="text-xs sm:text-xl lg:text-2xl font-bold text-gray-800 group-hover:text-cyan-500 transition-colors">
               Roma's Dental Care
             </h1>
           </div>
 
           {/* Navigation Links */}
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {['home', 'about', 'services', 'gallery', 'blog', 'reviews', 'contact'].map((item) => (
+            {['home', 'about', 'services', 'gallery', 'blog', 'reviews', 'faq', 'contact'].map((item) => (
               <a 
                 key={item}
                 href={`#${item}`} 
@@ -60,13 +60,13 @@ const Navbar = () => {
           </div>
 
           {/* Right Side - Phone and Book Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a href="tel:+917499537267" className="hidden md:flex items-center text-cyan-500 hover:text-cyan-600 transition-colors">
               <span className="font-semibold">+91 7499537267</span>
             </a>
             <button 
               onClick={(e) => scrollToSection(e, 'appointment')}
-              className="bg-cyan-500 text-white px-5 py-2 rounded-lg font-medium hover:bg-cyan-600 hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm"
+              className="bg-cyan-500 text-white px-3 py-1.5 sm:px-5 sm:py-2 rounded-lg font-medium hover:bg-cyan-600 hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-xs sm:text-sm whitespace-nowrap"
             >
               Book Appointment
             </button>
@@ -92,7 +92,7 @@ const Navbar = () => {
           isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="px-4 py-4 space-y-3 bg-gray-50">
-            {['home', 'about', 'services', 'gallery', 'blog', 'reviews', 'contact'].map((item) => (
+            {['home', 'about', 'services', 'gallery', 'blog', 'reviews', 'faq', 'contact'].map((item) => (
               <a
                 key={item}
                 href={`#${item}`}

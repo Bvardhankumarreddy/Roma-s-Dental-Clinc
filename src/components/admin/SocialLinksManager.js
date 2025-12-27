@@ -114,10 +114,10 @@ function SocialLinksManager() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Manage Social Media Links</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Manage Social Media Links</h2>
       
       {message && (
-        <div className={`p-4 rounded-lg mb-6 ${
+        <div className={`p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base ${
           message.includes('success') 
             ? 'bg-green-50 border border-green-200 text-green-700' 
             : 'bg-red-50 border border-red-200 text-red-700'
@@ -127,7 +127,7 @@ function SocialLinksManager() {
       )}
 
       {/* Add/Edit Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 mb-8">
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           {editingId ? 'Edit Social Link' : 'Add New Social Link'}
         </h3>

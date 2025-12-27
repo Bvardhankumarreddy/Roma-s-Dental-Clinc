@@ -57,24 +57,24 @@ const BookingsManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Bookings Management</h2>
-        <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Bookings Management</h2>
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg ${filter === 'all' ? 'bg-cyan-500 text-white' : 'bg-gray-200'}`}
+            className={`px-3 sm:px-4 py-2 rounded-lg text-sm ${filter === 'all' ? 'bg-cyan-500 text-white' : 'bg-gray-200'}`}
           >
             All ({bookings.length})
           </button>
           <button
             onClick={() => setFilter('pending')}
-            className={`px-4 py-2 rounded-lg ${filter === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
+            className={`px-3 sm:px-4 py-2 rounded-lg text-sm ${filter === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
           >
             Pending ({bookings.filter(b => b.status === 'pending').length})
           </button>
           <button
             onClick={() => setFilter('confirmed')}
-            className={`px-4 py-2 rounded-lg ${filter === 'confirmed' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            className={`px-3 sm:px-4 py-2 rounded-lg text-sm ${filter === 'confirmed' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
           >
             Confirmed ({bookings.filter(b => b.status === 'confirmed').length})
           </button>
@@ -82,7 +82,8 @@ const BookingsManager = () => {
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[800px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
@@ -150,8 +151,7 @@ const BookingsManager = () => {
               ))
             )}
           </tbody>
-        </table>
-      </div>
+        </table>        </div>      </div>
     </div>
   );
 };
